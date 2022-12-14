@@ -1,0 +1,11 @@
+.preview{
+    border: 1px solid green;
+    border-radius: 15px;
+    height: 30px;
+    color: green;
+    text-align: center;
+    vertical-align:top;
+    display: inline-flex;
+    min-width: none !important;
+    padding: 2px 2px 0px 2px;
+}

@@ -1,0 +1,11 @@
+.container {
+    background-color: #ffffff;
+    height: 100%;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+    padding: 15px;
+}
+
+.footer{
+    background-color: #190553;
+    color:#59b81a
+}
