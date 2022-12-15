@@ -1,5 +1,5 @@
 
-## Credilinq SME Health Check Application Form UI repository
+## Credilinq SME Health Check Application Form UI (with React)
 
 In the project directory, you can run:
 
