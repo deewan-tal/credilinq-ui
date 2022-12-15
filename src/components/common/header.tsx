@@ -27,7 +27,7 @@ export function Header() {
 
     return (
         <div className={classes.grow}>
-            <AppBar position='static'>
+            <AppBar position='static' style={{ backgroundColor: '#190553' }}>
                 <Toolbar>
                     <Typography>Credilinq.AI</Typography>
                     <div className={classes.grow} />

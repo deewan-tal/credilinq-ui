@@ -55,40 +55,53 @@ export function ApplicationForm() {
     const classes = useStyles();
     const steps = getSteps();
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
+    const handleSteps = () => {
+        console.log('handle step');
+        if (businessUEN && businessName) {
+            console.log('set step', 1);
+            setActiveStep(1);
+        } else {
+            setActiveStep(0);
+            return;
+        }
 
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
-    };
+        if (fullname && position && mobile && email && confirmEmail) {
+            console.log('set step', 2);
+            setActiveStep(2);
+        } else {
+            setActiveStep(1);
+            return;
+        }
+    }
 
     const businessUENChange = (uen: string) => {
         setBusinessUEN(uen);
+        handleSteps();
     }
 
     const businessNameChange = (name: string) => {
         setBusinessName(name);
+        handleSteps();
     }
 
     const fullnameChange = (name: string) => {
-        setFullname(name)
+        setFullname(name);
+        handleSteps();
     }
 
     const positionChange = (position: string) => {
-        setPosition(position)
+        setPosition(position);
+        handleSteps();
     }
 
     const mobileChange = (mobile: string) => {
-        setMobile(mobile)
+        setMobile(mobile);
+        handleSteps();
     }
 
     const emailChange = (email: string) => {
-        setEmail(email)
+        setEmail(email);
+        handleSteps();
     }
 
     const confirmEmailChange = (confirmEmail: string) => {
@@ -100,20 +113,32 @@ export function ApplicationForm() {
                 setConfirmEmailMatch(false)
             }
         }
+        handleSteps();
     }
 
     const onUploadDocument = (files: File[]) => {
-        const filenames = files.map(file => file.name);
-        setFilenames(filenames);
+        const fileuploadnames = files.map(file => file.name);
+        setFilenames(fileuploadnames);
+        if (fileuploadnames.length > 0) {
+            setActiveStep(3)
+        } else {
+            setActiveStep(2);
+        }
     }
 
     const onDeleteDocument = (file: File) => {
         const updatedFiles = filenames.filter(filename => filename !== file.name);
         setFilenames(updatedFiles);
+        if (updatedFiles.length > 0) {
+            setActiveStep(3)
+        } else {
+            setActiveStep(2);
+        }
     }
 
     const setConditions = (conditions: any, active: any) => {
         setTermsAndConditions({ conditions, active })
+        setActiveStep(4)
     }
 
     const onSubmit = async (evt: any) => {
@@ -168,7 +193,7 @@ export function ApplicationForm() {
                 <div className={classes.root}>
                     <Stepper activeStep={activeStep} orientation="vertical">
                         {steps.map((label, index) => (
-                            <Step key={label}>
+                            <Step key={label} expanded={true}>
                                 <StepLabel
                                 // StepIconComponent={QontoStepIcon}
                                 >
@@ -176,44 +201,10 @@ export function ApplicationForm() {
                                 </StepLabel>
                                 <StepContent >
                                     {switchComponents(index)}
-                                    <div className={classes.actionsContainer}>
-                                        <div>
-                                            <Button
-                                                disabled={activeStep === 0}
-                                                onClick={handleBack}
-                                                className={classes.button}
-                                            >
-                                                Back
-                                            </Button>
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={handleNext}
-                                                className={classes.button}
-                                            >
-                                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                            </Button>
-                                        </div>
-                                    </div>
                                 </StepContent>
                             </Step>
                         ))}
                     </Stepper>
-                    {activeStep === steps.length && (
-                        <div className={classes.resetContainer}>
-                            <div>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleReset}
-                                    className={classes.button}
-                                >
-                                    Reset
-                                </Button>
-                            </div>
-                        </div>
-                    )
-                    }
                 </div>
                 <Button
                     variant="contained"

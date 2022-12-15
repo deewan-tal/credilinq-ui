@@ -4,6 +4,7 @@ import { Header } from '../common/header';
 import { Container, Typography, CssBaseline } from '@material-ui/core'
 import { ApplicationForm } from '../applicationForm/ApplicationForm';
 // import { BottomNavigation } from '@mui/material';
+import { Footer } from '../common/footer'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
 
         </Container>
       </React.Fragment>
+      <Footer></Footer>
     </div>
   );
 }

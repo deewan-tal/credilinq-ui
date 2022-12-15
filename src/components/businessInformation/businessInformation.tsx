@@ -53,7 +53,6 @@ export function BusinessInformation(props: BusinessInformationProps) {
                         onChange={businessUENChange}
                         label="Business UEN"
                         helperText={invalidUEN ? "Invalid Business UEN" : ""}
-
                     >
                     </TextField>
                     <TextField
