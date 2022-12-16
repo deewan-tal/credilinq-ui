@@ -11,20 +11,26 @@ import {
 import { makeStyles, } from '@material-ui/core/styles';
 import { DropzoneArea, FileObject } from "material-ui-dropzone";
 import DoneIcon from "@material-ui/icons/Done";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import * as api from "../../services/api.request";
 
 
 const useStyles = makeStyles(theme => ({
     dropZone: {
-        height: '100%',
+        height: '10%',
         fullWidth: 'true',
         paddingTop: '50px',
     },
     dropZoneText: {
         fontSize: '15px !important',
     },
+    root: {
+        '& .ListItemText-root': {
+            fontSize: '3px',
+        },
+    },
+
+
 }));
 
 export enum UploadStatus {
@@ -66,14 +72,6 @@ export function UploadDocument(props: { onUploadDocument: Function, onDeleteDocu
 
     }
 
-    const filePreview = (file: FileObject, classes: any) => {
-        return (
-            <div className="preview">
-                {file.file.name}<HighlightOffIcon />
-            </div>
-        )
-    }
-
     return (
         <div>
             <TableHead>
@@ -84,29 +82,26 @@ export function UploadDocument(props: { onUploadDocument: Function, onDeleteDocu
                                 onChange={(e) => onUploadDocument(e)}
                                 onDelete={(e) => onDeleteFile(e)}
                                 showPreviews={true}
+                                filesLimit={6}
                                 showPreviewsInDropzone={false}
                                 dropzoneText={`click to upload or drag and drop bank statements`}
                                 dropzoneClass={classes.dropZone}
                                 showAlerts={['error']}
                                 acceptedFiles={['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']}
                                 dropzoneProps={{}}
-                                // previewGridProps={{
-                                //     container: { direction: 'row', xs: true, spacing: 1 },
-                                //     item: { direction: 'row', xs: true, }
-                                // }}
+                                useChipsForPreview={true}
+                                previewChipProps={{ color: 'secondary' }}
                                 dropzoneParagraphClass={classes.dropZoneText}
-                                getPreviewIcon={(file, classes) => filePreview(file, classes)}
-                                getFileLimitExceedMessage={(num) => 'file upload limit exceeds'}
                             />
                         </div>
                     </TableCell>
-                    <TableCell style={{ borderBottom: 'none', padding: '5px' }}>
+                    <TableCell style={{ borderBottom: 'none', padding: '0px 0px 5px 5px' }}>
                         <List>
-                            <ListItem>
+                            <ListItem >
                                 <ListItemIcon>
                                     <DoneIcon />
                                 </ListItemIcon>
-                                <ListItemText secondary="PDFs (not scanned coppies) of company's active operating bank account(s) statements for the past 6 months"></ListItemText>
+                                <ListItemText className={classes.root} secondary="PDFs (not scanned coppies) of company's active operating bank account(s) statements for the past 6 months"></ListItemText>
                             </ListItem>
                             <ListItem>
                                 <ListItemIcon>
