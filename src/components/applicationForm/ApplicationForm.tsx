@@ -6,8 +6,6 @@ import {
     StepLabel,
     StepContent,
     Button,
-    Paper,
-    Typography,
 } from '@material-ui/core';
 import { Form } from 'reactstrap';
 import { Section } from '../common/section';
@@ -16,6 +14,7 @@ import { ApplicantInformation } from '../ApplicantInformation/applicantInformati
 import { UploadDocument } from '../uploadDocument/uploadDocuments';
 import { TermsAndConditions } from '../termsAndConditions/termsAndCondions';
 import * as api from "../../services/api.request";
+import { StepIcon } from '../stepper/stepIcon';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,9 +55,7 @@ export function ApplicationForm() {
     const steps = getSteps();
 
     const handleSteps = () => {
-        console.log('handle step');
         if (businessUEN && businessName) {
-            console.log('set step', 1);
             setActiveStep(1);
         } else {
             setActiveStep(0);
@@ -66,7 +63,6 @@ export function ApplicationForm() {
         }
 
         if (fullname && position && mobile && email && confirmEmail) {
-            console.log('set step', 2);
             setActiveStep(2);
         } else {
             setActiveStep(1);
@@ -195,7 +191,8 @@ export function ApplicationForm() {
                         {steps.map((label, index) => (
                             <Step key={label} expanded={true}>
                                 <StepLabel
-                                // StepIconComponent={QontoStepIcon}
+                                    StepIconComponent={StepIcon}
+                                    StepIconProps={{ icon: index + 1 }}
                                 >
                                     <Section name={label}></Section>
                                 </StepLabel>
