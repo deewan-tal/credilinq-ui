@@ -6,6 +6,6 @@ export interface ApiConfigInterface {
 
 export const apiConfig: ApiConfigInterface = {
     protocol: 'http',
-    host: 'localhost:7000',
+    host: 'localhost:4000',
     service: 'credilinq'
 };

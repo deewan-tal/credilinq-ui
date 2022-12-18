@@ -9,9 +9,8 @@ import {
     ListItemText
 } from '@material-ui/core';
 import { makeStyles, } from '@material-ui/core/styles';
-import { DropzoneArea, FileObject } from "material-ui-dropzone";
+import { DropzoneArea } from "material-ui-dropzone";
 import DoneIcon from "@material-ui/icons/Done";
-import UploadFileIcon from '@mui/icons-material/UploadFile';
 import * as api from "../../services/api.request";
 
 
@@ -39,6 +38,17 @@ export enum UploadStatus {
     'FAILED' = 'failed'
 }
 
+function getStatusColor(status: UploadStatus) {
+    switch (status) {
+        case UploadStatus.INPROGRESS:
+            return 'default';
+        case UploadStatus.SUCCESS:
+            return 'primary';
+        case UploadStatus.FAILED:
+            return 'secondary'
+    }
+}
+
 export function UploadDocument(props: { onUploadDocument: Function, onDeleteDocument: Function }) {
     const classes = useStyles();
     const [status, setStatus] = React.useState(UploadStatus.INPROGRESS);
@@ -49,19 +59,20 @@ export function UploadDocument(props: { onUploadDocument: Function, onDeleteDocu
         const uploadedFile = files[files.length - 1];
         console.log(uploadedFile);
 
-        // let formData = new FormData();
-        // formData.append('file', uploadedFile);
+        let formData = new FormData();
+        formData.append('file', uploadedFile);
 
-        // const url = api.getBaseApiUrl() + '/form/upload';
-        // try {
-        //     const response = await api.callAPI(url, 'POST', formData, {
-        //         'Content-Type': "multipart/form-data"
-        //     });
-        //     console.log(response);
-        // } catch (err) {
-        //     console.log(err);
-        //     console.log('failed file upload');
-        // }
+        const url = api.getBaseApiUrl() + '/form/upload';
+        try {
+            const response = await api.callAPI(url, 'POST', formData, {
+                'Content-Type': uploadedFile.type
+            });
+            console.log('Success', response);
+            setStatus(UploadStatus.SUCCESS);
+        } catch (err) {
+            console.log('failed file upload', err);
+            setStatus(UploadStatus.FAILED);
+        }
 
         props.onUploadDocument(files);
     }
@@ -90,7 +101,7 @@ export function UploadDocument(props: { onUploadDocument: Function, onDeleteDocu
                                 acceptedFiles={['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']}
                                 dropzoneProps={{}}
                                 useChipsForPreview={true}
-                                previewChipProps={{ color: 'secondary' }}
+                                previewChipProps={{ color: getStatusColor(status) }}
                                 dropzoneParagraphClass={classes.dropZoneText}
                             />
                         </div>
